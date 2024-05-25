@@ -5,8 +5,8 @@ version = "1.0.0"
 # your project to the Hex package manager.
 #
 # description = ""
-# licences = ["Apache-2.0"]
-# repository = { type = "github", user = "username", repo = "project" }
+licences = ["MIT"]
+repository = { type = "github", user = "matteac", repo = "tinyroute_gl" }
 # links = [{ title = "Website", href = "https://gleam.run" }]
 #
 # For a full reference of all the available options, you can have a look at
@@ -15,7 +15,6 @@ version = "1.0.0"
 [dependencies]
 gleam_stdlib = ">= 0.34.0 and < 2.0.0"
 gleam_http = ">= 3.6.0 and < 4.0.0"
-gleam_elli = ">= 2.4.0 and < 3.0.0"
 
 [dev-dependencies]
 gleeunit = ">= 1.0.0 and < 2.0.0"
