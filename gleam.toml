@@ -4,7 +4,7 @@ version = "1.0.0"
 # Fill out these fields if you intend to generate HTML documentation or publish
 # your project to the Hex package manager.
 #
-# description = ""
+description = "A tiny http routing library"
 licences = ["MIT"]
 repository = { type = "github", user = "matteac", repo = "tinyroute_gl" }
 # links = [{ title = "Website", href = "https://gleam.run" }]
