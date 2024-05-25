@@ -5,8 +5,8 @@ import gleam/http/request
 import gleam/http/response
 import gleam/string
 
-import handler
-import route
+import tinyroute/handler
+import tinyroute/route
 
 pub type Router {
   Router(
