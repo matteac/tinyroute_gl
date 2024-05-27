@@ -97,6 +97,7 @@ fn log(
         method
         <> " "
         <> req.path
+        <> "?"
         <> query
         <> " "
         <> response.status |> int.to_string,
