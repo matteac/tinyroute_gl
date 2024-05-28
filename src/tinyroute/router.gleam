@@ -90,14 +90,13 @@ fn log(
     True -> {
       let method = req.method |> http.method_to_string |> string.uppercase
       let query = case req.query {
-        option.Some(query) -> query
+        option.Some(query) -> "?" <> query
         option.None -> ""
       }
       io.println(
         method
         <> " "
         <> req.path
-        <> "?"
         <> query
         <> " "
         <> response.status |> int.to_string,
