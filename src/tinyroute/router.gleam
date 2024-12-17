@@ -1,4 +1,4 @@
-import gleam/bytes_builder
+import gleam/bytes_tree
 import gleam/dict
 import gleam/http
 import gleam/http/request
@@ -15,9 +15,9 @@ pub type Router {
   Router(
     routes: dict.Dict(
       route.Route,
-      handler.Handler(BitArray, bytes_builder.BytesBuilder),
+      handler.Handler(BitArray, bytes_tree.BytesTree),
     ),
-    not_found_handler: handler.Handler(BitArray, bytes_builder.BytesBuilder),
+    not_found_handler: handler.Handler(BitArray, bytes_tree.BytesTree),
     log: Bool,
   )
 }
@@ -32,7 +32,7 @@ pub fn add(
   router: Router,
   method: http.Method,
   path: String,
-  handler: handler.Handler(BitArray, bytes_builder.BytesBuilder),
+  handler: handler.Handler(BitArray, bytes_tree.BytesTree),
 ) -> Router {
   router.routes
   |> dict.insert(route.new(method, path), handler)
@@ -42,17 +42,17 @@ pub fn add(
 /// Sets the not_found error handler to a custom one
 pub fn set_not_found_handler(
   router: Router,
-  not_found_handler: handler.Handler(BitArray, bytes_builder.BytesBuilder),
+  not_found_handler: handler.Handler(BitArray, bytes_tree.BytesTree),
 ) -> Router {
   Router(router.routes, not_found_handler, router.log)
 }
 
 fn not_found(
   req: request.Request(BitArray),
-) -> response.Response(bytes_builder.BytesBuilder) {
+) -> response.Response(bytes_tree.BytesTree) {
   404
   |> response.new
-  |> response.set_body(bytes_builder.from_string(
+  |> response.set_body(bytes_tree.from_string(
     "Cannot "
     <> req.method |> http.method_to_string |> string.uppercase
     <> " "
@@ -63,10 +63,8 @@ fn not_found(
 /// Gets the main handler that executes the respective handler for each route
 pub fn get_handler(
   router: Router,
-) -> handler.Handler(BitArray, bytes_builder.BytesBuilder) {
-  fn(req: request.Request(BitArray)) -> response.Response(
-    bytes_builder.BytesBuilder,
-  ) {
+) -> handler.Handler(BitArray, bytes_tree.BytesTree) {
+  fn(req: request.Request(BitArray)) -> response.Response(bytes_tree.BytesTree) {
     let route = route.new(req.method, req.path)
 
     case router.routes |> dict.get(route) {
@@ -84,8 +82,8 @@ pub fn set_log(router: Router, value: Bool) -> Router {
 fn log(
   log: Bool,
   req: request.Request(BitArray),
-  response: response.Response(bytes_builder.BytesBuilder),
-) -> response.Response(bytes_builder.BytesBuilder) {
+  response: response.Response(bytes_tree.BytesTree),
+) -> response.Response(bytes_tree.BytesTree) {
   case log {
     True -> {
       let method = req.method |> http.method_to_string |> string.uppercase

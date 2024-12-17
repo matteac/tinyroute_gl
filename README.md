@@ -11,13 +11,13 @@ import gleam/http
 import gleam/http/elli // or what you want to use
 import gleam/http/request
 import gleam/http/response
-import gleam/bytes_builder
+import gleam/bytes_tree
 import tinyroute/router
 
 fn index_handler(
   _req: request.Request(BitArray),
-) -> response.Response(bytes_builder.BytesBuilder) {
-  let body = bytes_builder.from_string("Hello, World!")
+) -> response.Response(bytes_tree.BytesTree) {
+  let body = bytes_tree.from_string("Hello, World!")
   200
   |> response.new
   |> response.set_body(body)
